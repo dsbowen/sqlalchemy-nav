@@ -73,8 +73,12 @@ bar.view_html()
 
 Outputs:
 
+<html>
+<head>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
+<body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
  <a class="navbar-brand" href="/my-brand">
   My Brand
@@ -106,3 +110,5 @@ Outputs:
   </ul>
  </div>
 </nav>
+</body>
+</html>
