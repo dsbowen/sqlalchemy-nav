@@ -77,5 +77,5 @@ class NavbarMixin(Base):
             custom_html=custom_html)
     
     def render(self):
-        soup = BeautifulSoup(self.compile())
+        soup = BeautifulSoup(self.compile(), 'html.parser')
         return Markup(str(soup.prettify()))
