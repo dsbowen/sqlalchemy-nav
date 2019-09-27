@@ -1,3 +1,5 @@
+(setq markdown-css-paths '("//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"))
+
 # SQLAlchemy-Nav
 
 SQLAlchemy-Nav provied [SQLAlchemy Mixins](https://docs.sqlalchemy.org/en/13/orm/extensions/declarative/mixins.html) for creating navigation bars compatible with [Bootstrap](https://getbootstrap.com/docs/4.3/components/navbar/). Its Mixins are:
@@ -72,8 +74,6 @@ bar.view_html()
 ```
 
 Outputs:
-
-(setq markdown-css-paths '("//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"))
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
  <a class="navbar-brand" href="/my-brand">
