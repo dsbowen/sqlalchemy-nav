@@ -1,11 +1,11 @@
 # SQLAlchemy-Nav
 
-SQLAlchemy-Nav provied [SQLAlchemy Mixins](https://docs.sqlalchemy.org/en/13/orm/extensions/declarative/mixins.html) for creating navigation bars compatible with [Bootstrap](https://getbootstrap.com/docs/4.3/components/navbar/). Its Mixins are:
+SQLAlchemy-Nav provides [SQLAlchemy Mixins](https://docs.sqlalchemy.org/en/13/orm/extensions/declarative/mixins.html) for creating navigation bars compatible with [Bootstrap](https://getbootstrap.com/docs/4.3/components/navbar/). Its Mixins are:
 
-1. NavbarMixin for creating navigation bars
-2. BrandMixin for adding a brand to the navbar
-3. NavitemMixin for adding navitems to the navbar
-4. DropdownitemMixin for adding dropdownitems to navitems
+1. ```NavbarMixin``` for creating navigation bars
+2. ```BrandMixin``` for adding a brand to the navbar
+3. ```NavitemMixin``` for adding nav-items to the navbar
+4. ```DropdownitemMixin``` for adding dropdown-items to nav-items
 
 ## License
 
@@ -119,7 +119,7 @@ Outputs:
 
 This example shows how to use SQLAlchemy-Nav to create dynamic navigation bars in web apps. You can find the full setup and example [here](https://github.com/dsbowen/sqlalchemy-nav/blob/master/flask_example.py).
 
-Our web app will use [Flask](http://flask.palletsprojects.com/en/1.1.x/), [Flask-Bootstrap](https://pythonhosted.org/Flask-Bootstrap/), and [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/).
+Our web app uses [Flask](http://flask.palletsprojects.com/en/1.1.x/), [Flask-Bootstrap](https://pythonhosted.org/Flask-Bootstrap/), and [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/).
 
 ### Python file
 
