@@ -33,10 +33,9 @@ class Base():
     def url(self, url):
         self._url = url
     
-    def __init__(self, url=None, label=None, *args, **kwargs):
+    def __init__(self, url=None, label=None):
         self.url = url
         self.label = label
-        super().__init__(*args, **kwargs)
     
     def isactive(self):
         """Test if object URL is active"""

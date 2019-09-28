@@ -41,7 +41,7 @@ class Dropdownitem(DropdownitemMixin, db.Model):
 def before_first_request():
     db.create_all()
     bar = Navbar(name='my navbar')
-    Brand(bar=bar, label='SQLAlchemy-Nav')
+    Brand(bar=bar, url='https://pypi.org/project/sqlalchemy-nav/', label='SQLAlchemy-Nav')
     Navitem(bar=bar, url=url_for('index'), label='Index ')
     item = Navitem(bar=bar, label='Dropdown')
     Dropdownitem(item=item, url=url_for('page1'), label='Page 1 ')
