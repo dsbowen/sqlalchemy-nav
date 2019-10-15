@@ -14,13 +14,11 @@ from sqlalchemy_nav import BrandMixin, DropdownitemMixin, NavbarMixin, NavitemMi
 
 # 2. Import Flask classes, methods, and extensions and initialize app
 from flask import Flask, render_template, url_for
-from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
 
 # 3. Use the SQLAlchemy-Nav Mixins to create database models
@@ -41,7 +39,7 @@ class Dropdownitem(DropdownitemMixin, db.Model):
 def before_first_request():
     db.create_all()
     bar = Navbar(name='my navbar')
-    Brand(bar=bar, url='https://pypi.org/project/sqlalchemy-nav/', label='SQLAlchemy-Nav')
+    Brand(bar=bar, url='https://dsbowen.github.io/sqlalchemy-nav', label='SQLAlchemy-Nav')
     Navitem(bar=bar, url=url_for('index'), label='Index ')
     item = Navitem(bar=bar, label='Dropdown')
     Dropdownitem(item=item, url=url_for('page1'), label='Page 1 ')

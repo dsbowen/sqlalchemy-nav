@@ -33,9 +33,20 @@ Base.metadata.create_all(engine)
 """Example"""
 
 bar = Navbar()
-Brand(bar=bar, url='/my-brand', label='My Brand')
-Navitem(bar=bar, url='/my-navitem', label='My Navitem')
-item = Navitem(bar=bar, label='Dropdown')
-Dropdownitem(item=item, url='/dropdown1', label='Dropdownitem 1')
-Dropdownitem(item=item, url='/dropdown2', label='Dropdownitem 2')
+Brand(bar=bar, url='/', label='dsbowen.github.io')
+Navitem(bar=bar, url='/about', label='About')
+item = Navitem(bar=bar, label='Projects')
+Dropdownitem(item=item, url='/flask-worker', label='Flask-Worker')
+Dropdownitem(item=item, url='/sqlalchemy-mutable', label='SQLAlchemy-Mutable')
+Dropdownitem(item=item, url='/sqlalchemy-nav', label='SQLAlchemy-Nav')
+bar.classes.remove('navbar-dark')
+bar.classes.remove('bg-dark')
+bar.classes.append('navbar-light')
+bar.classes.append('bg-light')
+bar.custom_html = """
+<form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
+"""
 bar.view_html()
