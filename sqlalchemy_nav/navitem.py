@@ -1,83 +1,55 @@
 """Navitem Mixin
 
-Navitem is attachced to a Navbar. It contains a list of classes for the li 
-tag, and may contain a list of dropdown items.
+A `Navitem` has a `Navbar` parent and `Dropdownitem` children.
 """
 
-from .base import Base
+from sqlalchemy_nav.base import Base
 
 from sqlalchemy import Column, ForeignKey, Integer
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.ext.orderinglist import ordering_list
 from sqlalchemy.orm import relationship
-from sqlalchemy_mutable import MutableListType
-
-LI = """
-<li class="{html_class}">
-    {a}
-    {dropdown_div}
-</li>
-"""
-
-
-A = """     
-<a class="{a_class}" href="{href}" {dropdown_attrs}>
-    {label}
-</a>
-"""
-
-
-DROPDOWN_ATTRS = """
-id="navbarDropdown{id}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-"""
-
-DROPDOWN_DIV = """     
-<div class="dropdown-menu" aria-labelledby="navbarDropdown{id}">
-    {dropdownitems}
-</div>
-"""
 
 
 class NavitemMixin(Base):
-    classes = Column(MutableListType)
-    index = Column(Integer)
-    
     @declared_attr
-    def navbar_id(cls):
-        return Column(Integer, ForeignKey('navbar.id'))
-    
+    def _navbar_id(self):
+        return Column(ForeignKey('navbar.id'))
+
     @declared_attr
     def dropdownitems(cls):
         return relationship(
             'Dropdownitem',
-            backref='item',
+            backref='navitem',
             order_by='Dropdownitem.index',
             collection_class=ordering_list('index')
-            )
-    
-    def __init__(
-            self, bar=None, dropdownitems=[], classes=None, *args, **kwargs):
-        self.bar = bar
-        self.dropdownitems = dropdownitems
-        self.classes = classes or ['nav-item']
-        super().__init__(*args, **kwargs)
-    
-    def compile(self):
-        html_class = self.html_class
-        a_class = 'nav-link'
+        )
+
+    def __init__(self, navbar=None, dropdown=False, *args, **kwargs):
+        """
+        Set `dropdown` to `True` to indicate that this `Navitem` will 
+        contain `Dropdownitem`s.
+        """
+        self.navbar = navbar
+        template = 'navitemdropdown.html' if dropdown else 'navitem.html'
+        super().__init__(template, *args, **kwargs)  
+
+    def render(self, body=None):
+        """Render MutableSoup
+
+        If this `Navitem` contains `Dropdownitem`s, render them and append 
+        to the dropdown menu. Additionally, set the appropriate 'id' and 
+        'aria-labelledby' attributes.
+        """
+        body = body or self.body.copy()
+        if self.is_active(): # add 'active' class to `a` Tag
+            li = body.select_one('li')
+            if li.attrs.get('class') is None:
+                li['class'] = []
+            body.select_one('li')['class'].append('active')
         if self.dropdownitems:
-            html_class += ' dropdown'
-            a_class += ' dropdown-toggle'
-            dropdown_attrs = DROPDOWN_ATTRS.format(id=self.id)
-            dropdownitems = ''.join(
-                [i.compile() for i in self.dropdownitems])
-            dropdown_div = DROPDOWN_DIV.format(
-                id=self.id, dropdownitems=dropdownitems)
-        else:
-            dropdown_attrs = dropdown_div = ''
-        a = A.format(
-            a_class=a_class, href=self.url, dropdown_attrs=dropdown_attrs,
-            label=self.label)
-        return LI.format(
-            html_class=self.html_class, href=self.url, a=a, 
-            dropdown_div=dropdown_div)
+            body.select_one('a')['id'] = self.model_id
+            div = body.select_one('.dropdown-menu')
+            div['aria-labelledby'] = self.model_id
+            [div.append(item.render()) for item in self.dropdownitems]
+        return body

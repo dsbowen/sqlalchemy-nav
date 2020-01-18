@@ -1,50 +1,56 @@
-"""Base for SQLAlchemy-Nav Mixins"""
+"""Base for SQLAlchemy-Nav Mixins
 
-from bs4 import BeautifulSoup
+All SQLAlchemy-Nav Mixins have the following attributes:
+1. `body`: A `MutableSoup` object containing the HTML associated with the object.
+2. `label`: The object label
+3. `href`: The object's link
+"""
+
 from flask import request
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer
+from sqlalchemy_modelid import ModelIdBase
+from sqlalchemy_mutablesoup import MutableSoupType
+from sqlalchemy_orderingitem import OrderingItem
+
+import os
 
 
-class Base():
-    id = Column(Integer, primary_key=True)    
-    _label = Column(String)
-    _url = Column(String)
-    
+class Base(OrderingItem, ModelIdBase):
+    id = Column(Integer, primary_key=True)
+    index = Column(Integer)
+    body = Column(MutableSoupType)
+
+    def __init__(self, template, label=None, href=None, *args, **kwargs):
+        path = os.path.dirname(os.path.realpath(__file__))
+        self.body = open(os.path.join(path, template)).read()
+        self.label = label
+        self.href = href
+        super().__init__(*args, **kwargs)
+
     @property
-    def html_class(self):
-        """Convert class list to a string"""
-        html_class = ' '.join(self.classes) if self.classes else ''
-        html_class += ' active' if self.isactive() else ''
-        return html_class
-    
+    def a(self):
+        return self.body.select_one('a')
+
     @property
     def label(self):
-        return '' if self._label is None else self._label
-    
+        return self.a.text
+
     @label.setter
-    def label(self, label):
-        self._label = label
-    
+    def label(self, val):
+        self.body.set_element('a', val)
+
     @property
-    def url(self):
-        return self._url or '#'
+    def href(self):
+        return self.a.attrs.get('href')
+
+    @href.setter
+    def href(self, val):
+        self.a['href'] = val
+        self.body.changed()
     
-    @url.setter
-    def url(self, url):
-        self._url = url
-    
-    def __init__(self, url=None, label=None):
-        self.url = url
-        self.label = label
-    
-    def isactive(self):
-        """Test if object URL is active"""
+    def is_active(self):
+        """Test if object href is active"""
         try:
-            return self.url == str(request.url_rule)
+            return self.href == str(request.url_rule)
         except: # Exception will occur in shell
             return False
-    
-    def view_html(self):
-        """For debugging"""
-        soup = BeautifulSoup(self.compile(), 'html.parser')
-        print(soup.prettify())
