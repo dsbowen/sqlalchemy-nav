@@ -1,0 +1,13 @@
+site_name: SQAlchemy-Nav
+docs_dir: docs_md
+site_dir: docs
+repo_url: https://github.com/dsbowen/sqlalchemy-nav
+edit_uri: edit/master/docs_md
+nav:
+  - Home: index.md
+  - Examples: examples.md
+  - API: api.md
+  - Contribute: contribute.md
+theme: readthedocs
+extra_css:
+  - css/extra.css

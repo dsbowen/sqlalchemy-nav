@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="None">
+  
+  
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>SQAlchemy-Nav</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link href="css/extra.css" rel="stylesheet" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Home";
+    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> SQAlchemy-Nav</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#why-sqlalchemy-nav">Why SQLAlchemy-Nav</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#citation">Citation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#license">License</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="examples/">Examples</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="api/">API</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="contribute/">Contribute</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">SQAlchemy-Nav</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Home</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/dsbowen/sqlalchemy-nav/edit/master/docs_md/index.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="sqlalchemy-nav">SQLAlchemy-Nav</h1>
+<p>SQLAlchemy-Nav makes it easy to create and customize dynamic <a href="https://getbootstrap.com/docs/4.5/components/navbar/">Bootstrap 4 Navbars</a> for web apps with a <a href="https://sqlalchemy.org">SQLAlchemy</a> backend.</p>
+<h2 id="why-sqlalchemy-nav">Why SQLAlchemy-Nav</h2>
+<p>Unlike static Navbars, SQLAlchemy-Nav can create personalized Navbars for your users.</p>
+<h2 id="installation">Installation</h2>
+<pre><code>$ pip install sqlalchemy-nav
+</code></pre>
+
+<h2 id="quickstart">Quickstart</h2>
+<p>Run the following setup code.</p>
+<pre><code class="python">from sqlalchemy_nav import NavbarMixin, NavitemMixin, DropdownitemMixin
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.ext.declarative import declarative_base
+
+# session creation (standard)
+engine = create_engine('sqlite:///:memory:')
+session_factory = sessionmaker(bind=engine)
+Session = scoped_session(session_factory)
+session = Session()
+Base = declarative_base()
+
+# use the SQLAlchemy-Nav Mixins to create database models
+class Navbar(NavbarMixin, Base):
+    __tablename__ = 'navbar'
+
+class Navitem(NavitemMixin, Base):
+    __tablename__ = 'navitem'
+
+class Dropdownitem(DropdownitemMixin, Base):
+    __tablename__ = 'dropdownitem'
+
+# create the database (standard)
+Base.metadata.create_all(engine)
+</code></pre>
+
+<p>Create and render a Navbar:</p>
+<pre><code class="python">navbar = Navbar(label='Home', href='https://my-home-page')
+Navitem(navbar, label='About', href='/about')
+navitem = Navitem(navbar, dropdown=True, label='Dropdown')
+Dropdownitem(navitem, label='Item0', href='/item0')
+Dropdownitem(navitem, label='Item1', href='/item1')
+session.add(navbar)
+session.commit()
+print(navbar.render().prettify())
+</code></pre>
+
+<p>Out:</p>
+<pre><code class="html">&lt;nav class=&quot;navbar navbar-expand-lg navbar-light bg-light fixed-top&quot;&gt;
+ &lt;a class=&quot;navbar-brand&quot; href=&quot;https://my-home-page&quot;&gt;
+  Home
+ &lt;/a&gt;
+ &lt;button aria-controls=&quot;navbar-1&quot; aria-expanded=&quot;false&quot; aria-label=&quot;Toggle navigation&quot; class=&quot;navbar-toggler&quot; data-target=&quot;#navbar-1&quot; data-toggle=&quot;collapse&quot; type=&quot;button&quot;&gt;
+  &lt;span class=&quot;navbar-toggler-icon&quot;&gt;
+  &lt;/span&gt;
+ &lt;/button&gt;
+ &lt;div class=&quot;collapse navbar-collapse&quot; id=&quot;navbar-1&quot;&gt;
+  &lt;ul class=&quot;navbar-nav mr-auto&quot;&gt;
+   &lt;li class=&quot;nav-item&quot;&gt;
+    &lt;a class=&quot;nav-link&quot; href=&quot;/about&quot;&gt;
+     About
+    &lt;/a&gt;
+   &lt;/li&gt;
+   &lt;li class=&quot;nav-item dropdown&quot;&gt;
+    &lt;a aria-expanded=&quot;false&quot; aria-haspopup=&quot;true&quot; class=&quot;nav-link dropdown-toggle&quot; data-toggle=&quot;dropdown&quot; href=&quot;&quot; id=&quot;navitem-2&quot; role=&quot;button&quot;&gt;
+     Dropdown
+    &lt;/a&gt;
+    &lt;div aria-labelledby=&quot;navitem-2&quot; class=&quot;dropdown-menu&quot;&gt;
+     &lt;a class=&quot;dropdown-item&quot; href=&quot;/item0&quot;&gt;
+      Item0
+     &lt;/a&gt;
+     &lt;a class=&quot;dropdown-item&quot; href=&quot;/item1&quot;&gt;
+      Item1
+     &lt;/a&gt;
+    &lt;/div&gt;
+   &lt;/li&gt;
+  &lt;/ul&gt;
+ &lt;/div&gt;
+&lt;/nav&gt;
+</code></pre>
+
+<h2 id="citation">Citation</h2>
+<pre><code>@software{bowen2020sqlalchemy-nav,
+  author = {Dillon Bowen},
+  title = {SQLAlchemy-Nav},
+  url = {https://dsbowen.github.io/sqlalchemy-nav/},
+  date = {2020-06-10},
+}
+</code></pre>
+
+<h2 id="license">License</h2>
+<p>Users must cite this package in any publications which use it.</p>
+<p>It is licensed with the MIT <a href="https://github.com/dsbowen/sqlalchemy-nav/blob/master/LICENSE">License</a>.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="examples/" class="btn btn-neutral float-right" title="Examples">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/dsbowen/sqlalchemy-nav/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+      
+        <span style="margin-left: 15px"><a href="examples/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.1.1
+Build Date UTC : 2020-06-10 16:50:09.264939+00:00
+-->

@@ -1,3 +1,5 @@
+# SQLAlchemy-Nav
+
 SQLAlchemy-Nav makes it easy to create and customize dynamic [Bootstrap 4 Navbars](https://getbootstrap.com/docs/4.5/components/navbar/) for web apps with a [SQLAlchemy](https://sqlalchemy.org) backend.
 
 ## Why SQLAlchemy-Nav
